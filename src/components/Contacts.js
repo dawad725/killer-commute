@@ -33,27 +33,22 @@ class Contacts extends React.Component {
   }
 
   render() {
+    debugger
     return (
       <Switch>
-        <Route path='/contacts/new' render={(props) => (
+        <Route path='/search' render={(props) => (
           <ContactNew props={props} contacts={this.props.contacts} addContact={this.props.addContact} toggleRedirect={this.toggleRedirect}/>
         )} />
 
-        <Route exact path='/contacts/:id' render={(props) => (
+        <Route exact path='/search/:id' render={(props) => (
 
           <Contact props={props} contacts={this.props.contacts} />
 
         )} />
 
-        <Route exact path='/contacts/:id/edit' render={(props) => (
-          
-          <ContactEdit editContact={this.props.editContact} props={props} contacts={this.props.contacts} />
-
-        )} />
-
-        <Route path='/contacts' render={() => {
+        <Route path='/search' render={() => {
          if (this.state.redirect) {
-           return <Redirect to='/contacts/new' />
+           return <Redirect to='/search' />
          }
          return (
           <div>

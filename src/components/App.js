@@ -53,9 +53,9 @@ class App extends React.Component {
       <div>
         <Switch>
           <Route exact path='/'>
-            <Redirect to='/contacts' />
+            <Redirect to='/search' />
           </Route>
-          <Route path='/contacts' render={() => (
+          <Route path='/search' render={() => (
             <Contacts props={this.props} addContact={this.addContact} contacts={this.state.contacts} deleteContact={this.deleteContact} editContact={this.editContact}/>
           )}/>
         </Switch>
