@@ -39,7 +39,7 @@ class JobNew extends React.Component {
         console.log(response);
         this.setState({ jobs: response.data.SearchResult.SearchResultItems })
         console.log(this.state.jobs)
-
+        if (this.state.jobs.length === 0) {alert('Sorry no matches found')}
 
       }).catch(function (error) {
         console.log(error);
