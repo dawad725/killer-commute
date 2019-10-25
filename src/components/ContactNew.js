@@ -72,11 +72,11 @@ class JobNew extends React.Component {
             this.setState({})
           } />
 
-          <button id="submit-job-button" type="button" className="btn btn-primary" onClick={event => {
+          <button id="submit-job-button" type="button" className="btn btn-danger" onClick={event => {
             this.handleSubmitClick(event)
           }}>Submit</button>
         </form>
-        
+
         <div>
         <Switch>
           <Route path='/search/:MatchedObjectId' render={() => (

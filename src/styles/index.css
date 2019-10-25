@@ -7,7 +7,7 @@ body {
 h1 {
   margin-top: 20px;
   margin-left: 25px;
-  color: blue;
+  color: #990000;
   margin-bottom: 10px;
   display: inline-block;
   vertical-align: middle;
@@ -16,6 +16,11 @@ h1 {
 #job-form {
   margin-top: 40px;
   margin-right: 50%;
+}
+
+#mainimg {
+  margin: 0 auto;
+  padding-left: 40px;
 }
 
 #job {
@@ -33,10 +38,11 @@ h1 {
 
 #submit-job-button {
   margin-top: 5px;
+  color: black;
 }
 
 a {
-  color: blue;
+  color: #990000;
 }
 
 .list-group-item {
