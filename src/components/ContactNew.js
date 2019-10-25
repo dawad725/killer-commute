@@ -3,8 +3,8 @@ import React from 'react'
 import axios from 'axios'
 
 
-// handles new contact creation
-class ContactNew extends React.Component {
+// handles new job creation
+class JobNew extends React.Component {
   constructor() {
     debugger;
     super()
@@ -13,19 +13,19 @@ class ContactNew extends React.Component {
       jobs: []
     }
 
-    this.handleSubmitContactClick = this.handleSubmitContactClick.bind(this)
-    
+    this.handleSubmitClick = this.handleSubmitClick.bind(this)
+
   }
 
-  // on submit click create contact, set path back to /contacts re-initialize redirect
-  handleSubmitContactClick(e) {
+  // on submit click, search for jobs
+  handleSubmitClick(e) {
     debugger;
     console.log(e)
     let jobTitle = e.target.parentElement[0].value;
     let address = e.target.parentElement[1].value;
     let radius = e.target.parentElement[2].value;
 
-    axios.get('https://data.usajobs.gov/api/Search?LocationName=Durham,%20NC&PositionTitle=IT&Radius=25&ResultsPerPage=25',
+    axios.get(`https://data.usajobs.gov/api/Search?LocationName=${address}&PositionTitle=${jobTitle}&Radius=${radius}&ResultsPerPage=25`,
       {
         headers: {
           "Host": 'data.usajobs.gov',
@@ -35,17 +35,17 @@ class ContactNew extends React.Component {
         responseType: "json",
 
       }).then(response => {
-        
+        debugger;
         console.log(response);
-        this.setState({jobs: response.data.SearchResult.SearchResultItems})
-        // this.populateJobs(response);
-        
-        
+        this.setState({ jobs: response.data.SearchResult.SearchResultItems })
+        console.log(this.state.jobs)
+
+
       }).catch(function (error) {
         console.log(error);
-      })  
-    
-      
+      })
+
+
     // const jobSearch = {
     //   jobTitle: this.state.name,
     //   address: this.state.email,
@@ -53,48 +53,55 @@ class ContactNew extends React.Component {
     //   id: Math.round(Math.random() * 100000000)
     // };
 
-    // this.props.addContact(newContact);
-    // this.props.props.history.push('/contacts')
+    // this.props.addjob(newjob);
+    // this.props.props.history.push('/jobs')
     // this.props.toggleRedirect();
   }
 
 
 
-  
+
 
   render() {
     return (
       <div>
-        <form id="contact-form">
+        <form id="job-form">
           <label>Job Title</label>
-          <input type='text' className='form-control' onChange={event => {
+          <input placeholder='enter keyword(s)' type='text' className='form-control' onChange={event => {
             const name = event.target.value
-            // this.setState({ jobTitle: jobTitle })
-          }
+            }
           } />
 
           <br />
 
           <label>Address</label>
-          <input type='text' className='form-control' onChange={event =>
+          <input placeholder='your address' type='text' className='form-control' onChange={event =>
             this.setState({})
           } />
 
           <br />
 
           <label>Radius</label>
-          <input type='text' className='form-control' onChange={event =>
-            this.setState({  })
+          <input placeholder='number of miles away' type='text' className='form-control' onChange={event =>
+            this.setState({})
           } />
 
-          <button id="submit-contact-button" type="button" className="btn btn-primary" onClick={event =>      {this.handleSubmitContactClick(event)
+          <button id="submit-job-button" type="button" className="btn btn-primary" onClick={event => {
+            this.handleSubmitClick(event)
           }}>Submit</button>
-        </form>
-
-        <Link to='/search' id="return-to-contacts" onClick={this.props.toggleRedirect}>Contacts</Link>
+        </form>      
+      
+        <ul className="list-group">
+          {
+            this.state.jobs.map(job => (
+              <li className="list-group-item" key={job.MatchedObjectId}>
+                <Link id="job-name-list" to={`/search/${job.MatchedObjectId}`}>{job.MatchedObjectDescriptor.PositionTitle}</Link>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     )
   }
 }
-
-export default ContactNew
+  export default JobNew
