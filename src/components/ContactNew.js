@@ -1,16 +1,18 @@
-import { Link } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 import React from 'react'
 import axios from 'axios'
+import Job from './Contact'
 
 
 // handles new job creation
 class JobNew extends React.Component {
-  constructor() {
+  constructor(props) {
     debugger;
-    super()
+    super(props)
 
     this.state = {
-      jobs: []
+      jobs: [],
+      selectedJob: ''
     }
 
     this.handleSubmitClick = this.handleSubmitClick.bind(this)
@@ -39,28 +41,12 @@ class JobNew extends React.Component {
         console.log(response);
         this.setState({ jobs: response.data.SearchResult.SearchResultItems })
         console.log(this.state.jobs)
-        if (this.state.jobs.length === 0) {alert('Sorry no matches found')}
+        if (this.state.jobs.length === 0) { alert('Sorry no matches found') }
 
       }).catch(function (error) {
         console.log(error);
       })
-
-
-    // const jobSearch = {
-    //   jobTitle: this.state.name,
-    //   address: this.state.email,
-    //   radius: this.state.phone,
-    //   id: Math.round(Math.random() * 100000000)
-    // };
-
-    // this.props.addjob(newjob);
-    // this.props.props.history.push('/jobs')
-    // this.props.toggleRedirect();
   }
-
-
-
-
 
   render() {
     return (
@@ -69,7 +55,7 @@ class JobNew extends React.Component {
           <label>Job Title</label>
           <input placeholder='enter keyword(s)' type='text' className='form-control' onChange={event => {
             const name = event.target.value
-            }
+          }
           } />
 
           <br />
@@ -89,21 +75,41 @@ class JobNew extends React.Component {
           <button id="submit-job-button" type="button" className="btn btn-primary" onClick={event => {
             this.handleSubmitClick(event)
           }}>Submit</button>
-        </form>      
-      
+        </form>
+        
+        <div>
+        <Switch>
+          <Route path='/search/:MatchedObjectId' render={() => (
+            <Job props={this.state}/>
+          )} />
+        </Switch>
+      </div>
+
         <ul className="list-group">
           {
+
             this.state.jobs.map(job => (
               <li className="list-group-item" key={job.MatchedObjectId}>
-                <Link id="job-name-list" to={`/search/${job.MatchedObjectId}`}>{job.MatchedObjectDescriptor.PositionTitle} <br></br>
-                {job.MatchedObjectDescriptor.OrganizationName}</Link>
+                <Link id="job-name-list" onClick={event => {
+                  debugger; 
+                  console.log(event.target.attributes[1].value);
+                  let id = parseInt(((event.target.attributes[1].value)).match(/[0-9]/g).join(''),10)
+
+                  console.log(id)
+                  this.setState({selectedJob: id});
                 
+                }} to={`/search/${job.MatchedObjectId}`}>{job.MatchedObjectDescriptor.PositionTitle} <br></br>
+                  {job.MatchedObjectDescriptor.OrganizationName}</Link>
+
               </li>
+
             ))
           }
         </ul>
+    
+
       </div>
     )
   }
 }
-  export default JobNew
+export default JobNew
