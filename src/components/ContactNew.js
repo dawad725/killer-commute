@@ -95,7 +95,9 @@ class JobNew extends React.Component {
           {
             this.state.jobs.map(job => (
               <li className="list-group-item" key={job.MatchedObjectId}>
-                <Link id="job-name-list" to={`/search/${job.MatchedObjectId}`}>{job.MatchedObjectDescriptor.PositionTitle}</Link>
+                <Link id="job-name-list" to={`/search/${job.MatchedObjectId}`}>{job.MatchedObjectDescriptor.PositionTitle} <br></br>
+                {job.MatchedObjectDescriptor.OrganizationName}</Link>
+                
               </li>
             ))
           }
