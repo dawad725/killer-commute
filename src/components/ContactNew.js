@@ -21,8 +21,8 @@ class JobNew extends React.Component {
   handleSubmitClick(e) {
     debugger;
     console.log(e)
-    let jobTitle = e.target.parentElement[0].value;
-    let address = e.target.parentElement[1].value;
+    let jobTitle = (e.target.parentElement[0].value).split(' ').join('%20');
+    let address = (e.target.parentElement[1].value).split(' ').join('%20');
     let radius = e.target.parentElement[2].value;
 
     axios.get(`https://data.usajobs.gov/api/Search?LocationName=${address}&PositionTitle=${jobTitle}&Radius=${radius}&ResultsPerPage=25`,
